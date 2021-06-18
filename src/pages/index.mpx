@@ -1,0 +1,53 @@
+<template xmlns:wx="http://www.w3.org/1999/xhtml">
+  <view class="container">
+    <view class="logo">
+      <image src="/static/images/mini-logo.png" class="img"></image>
+      <text>开箱即用、定制化的迷你组件库</text>
+    </view>
+    <view class="list">
+      <router routerData="{{routerList}}"></router>
+    </view>
+  </view>
+</template>
+
+
+<script>
+import { createPage } from '@mpxjs/core'
+import store from '../store/router'
+
+createPage({
+  data: {},
+  computed: {
+    ...store.mapState(['routerList'])
+  }
+})
+</script>
+
+<script name="json">
+module.exports = {
+  usingComponents: {
+    router: '../components/mini-router/router'
+  }
+}
+</script>
+<style lang="stylus">
+.container
+  width 100%
+  height 100%
+.logo
+  padding-left 20px
+  height 150px
+  display flex
+  flex-direction column
+.img
+  height 100px
+  width 100px
+text
+  font-size 26px
+  color #b3b3b3
+.list
+  margin-top 30px
+  margin-left 20px
+  margin-right 20px
+  height auto
+</style>

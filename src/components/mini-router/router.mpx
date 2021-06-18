@@ -1,0 +1,83 @@
+<template>
+  <view class="list">
+    <view wx:for="{{routerData}}" wx:key="index">
+      <view class="item" bindtap="handleClick(item,index)"
+        ><text class="text">{{ item.name }}</text>
+        <view class="image"
+          ><image src="/static/images/go.png" style="height:10px;width:10px"></image
+        ></view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import { createComponent } from '@mpxjs/core'
+import store from '../../store/router'
+
+createComponent({
+  props: {
+    routerData: Array
+  },
+  attached() {
+    console.log('attached--->', this.routerData)
+  },
+  methods: {
+    handleClick(item, index) {
+      store.commit('routerToPath', { index: index, payload: item.name })
+    }
+  }
+})
+</script>
+
+<style lang="less">
+.list {
+  height: auto;
+  color: #242424;
+  text-align: center;
+}
+
+.item {
+  height: 90px;
+  line-height: 90px;
+  border-radius: 10px;
+  background-color: #8a8a8a;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #ffffff;
+  display: flex;
+}
+
+.item:active {
+  height: 90px;
+  line-height: 90px;
+  border-radius: 10px;
+  background-color: #242424;
+  opacity: 0.65;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #ffffff;
+  display: flex;
+}
+
+.text {
+  color: #ffffff;
+  font-size: 28px;
+  padding-left: 40px;
+  font-weight: normal;
+}
+
+.image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding-right: 10px;
+  justify-content: flex-end;
+}
+</style>
+
+<script type="application/json">
+{
+  "component": true
+}
+</script>

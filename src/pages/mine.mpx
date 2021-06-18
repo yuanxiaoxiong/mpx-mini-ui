@@ -1,0 +1,278 @@
+<template>
+  <view class="container">
+    <view class="userProfile" bindtap="">
+      <view class="avator">
+        <image
+          src="/static/images/profile_avatar_empty.png"
+          mode="aspectFit"
+          class="avatorImg"
+        ></image>
+      </view>
+      <view class="nickName">
+        <view class="name-top">普通用户</view>
+        <view class="name-bottom">
+          仅用于展示效果，无需登录
+        </view>
+      </view>
+      <view class="goto">
+        <image src="/static/images/profile_ic_see_more.png" mode="aspectFit"></image>
+      </view>
+    </view>
+    <view class="line" />
+    <view class="invitation" bindtap="onMessage">
+      <view class="left-icon">
+        <image src="/static/images/ic_notice.png" mode="aspectFit"></image>
+      </view>
+      <view class="mid-text">
+        摇一摇
+      </view>
+      <view class="right-goto">
+        <image src="/static/images/profile_ic_see_more.png" mode="aspectFit"></image>
+      </view>
+    </view>
+    <view class="invitation-feedback">
+      <view class="left-icon">
+        <image src="/static/images/ic_feedback.png" mode="aspectFit"></image>
+      </view>
+      <view class="mid-text">
+        意见反馈
+      </view>
+      <view class="right-goto">
+        <image src="/static/images/profile_ic_see_more.png" mode="aspectFit"></image>
+      </view>
+      <button type="primary" class="feedback" open-type="feedback"></button>
+    </view>
+    <view class="about" bindtap="aboutMine">
+      <view class="left-icon">
+        <image src="/static/images/ic_about_me.png" mode="aspectFit"></image>
+      </view>
+      <view class="mid-text">
+        关于我们
+      </view>
+      <view class="right-goto">
+        <image src="/static/images/profile_ic_see_more.png" mode="aspectFit"></image>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+import { createPage } from '@mpxjs/core'
+
+createPage({
+  // data中定义的数据会在初始化时进行数据响应处理
+  data: {
+    shake: false
+  },
+  // 配置中直接定义watch
+  watch: {},
+  // 定义计算属性，模板中可以直接访问
+  computed: {},
+  onHide() {
+    this.onStopShake()
+  },
+  onShow() {
+    if (!this.shake) {
+      this.onStopShake()
+      return
+    }
+    this.onStartShake()
+  },
+  methods: {
+    onStartShake() {
+      wx.onAccelerometerChange(res => {
+        console.log('加速度--->', res)
+        if (res.x > 1 && res.y > 1) {
+          wx.showToast({
+            title: '摇一摇成功',
+            icon: 'success',
+            duration: 2000
+          })
+        }
+      })
+    },
+    onStopShake() {
+      wx.stopAccelerometer()
+    },
+    onMessage(e) {
+      this.shake = !this.shake
+      if (this.shake) {
+        this.onStartShake()
+        wx.showToast({
+          icon: 'none',
+          title: '摇一摇已启动'
+        })
+      } else {
+        this.onStopShake()
+        wx.showToast({
+          icon: 'none',
+          title: '摇一摇已关闭'
+        })
+      }
+    },
+    aboutMine(e) {
+      console.log('mine-->', e)
+    }
+  }
+})
+</script>
+
+<script name="json">
+module.exports = {
+  usingComponents: {
+    // list: '../components/mini-list/list'
+  },
+  navigationBarTitleText: '我的'
+}
+</script>
+<style lang="less">
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+}
+
+.userProfile {
+  height: 200px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+}
+
+.avator {
+  flex: 1;
+}
+
+.avatorImg {
+  margin-top: 40px;
+  width: 120px;
+  height: 120px;
+  border-radius: 120px;
+}
+
+.nickName {
+  height: 200px;
+  margin-left: 30px;
+  flex: 4;
+}
+
+.name-top {
+  margin-top: 50px;
+  font-size: 32px;
+  color: #242424;
+  font-weight: 700;
+}
+
+.name-bottom {
+  margin-top: 16px;
+  font-size: 26px;
+  color: #808080;
+}
+
+.goto {
+  flex: 1;
+  line-height: 200px;
+  text-align: end;
+}
+
+.goto image {
+  width: 12px;
+  height: 20px;
+}
+
+.line {
+  height: 20px;
+  background-color: #f5f6f6;
+}
+
+.invitation {
+  height: 120px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  border-bottom: solid #f5f6f6 1px;
+}
+
+.invitation:active {
+  height: 120px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  background-color: #f5f6f6;
+  opacity: 0.7;
+  border-bottom: solid #f5f6f6 1px;
+}
+
+.invitation-feedback {
+  height: 120px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  border-bottom: solid #f5f6f6 1px;
+  position: relative;
+}
+
+.invitation-feedback:active {
+  height: 120px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  border-bottom: solid #f5f6f6 1px;
+  position: relative;
+  background-color: #f5f6f6;
+  opacity: 0.7;
+}
+
+.feedback {
+  top: 0px;
+  left: 0px;
+  position: absolute;
+  width: 100%;
+  height: 120px;
+  opacity: 0;
+}
+
+.about {
+  height: 120px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+}
+.about:active {
+  height: 120px;
+  padding-left: 40px;
+  padding-right: 40px;
+  display: flex;
+  background-color: #f5f6f6;
+  opacity: 0.7;
+}
+
+.left-icon {
+  flex: 1;
+}
+
+.left-icon image {
+  margin-top: 42px;
+  width: 40px;
+  height: 40px;
+}
+
+.mid-text {
+  line-height: 120px;
+  flex: 16;
+  font-size: 28px;
+  padding-left: 22px;
+  color: #242424;
+}
+
+.right-goto {
+  flex: 1;
+  line-height: 120px;
+  text-align: end;
+}
+
+.right-goto image {
+  width: 12px;
+  height: 20px;
+}
+</style>

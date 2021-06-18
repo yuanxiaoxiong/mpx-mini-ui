@@ -1,0 +1,33 @@
+<template>
+  <view>当前的组件是：{{ current }}</view>
+  <component is="{{current}}"></component>
+</template>
+
+<script>
+import { createPage } from '@mpxjs/core'
+
+createPage({
+  // data中定义的数据会在初始化时进行数据响应处理
+  data: {
+    current: 'router'
+  },
+  // 配置中直接定义watch
+  watch: {},
+  // 定义计算属性，模板中可以直接访问
+  computed: {},
+  onLoad(res) {
+    console.log('res--->', res)
+    wx.setNavigationBarTitle({ title: res.payload })
+    this.current = res.payload
+  }
+})
+</script>
+
+<script name="json">
+module.exports = {
+  usingComponents: {
+    // router: '../../components/mini-router/router'
+  },
+  navigationBarTitleText: '我的'
+}
+</script>
